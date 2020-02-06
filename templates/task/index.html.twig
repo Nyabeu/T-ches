@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+
+    <div class="container mt-3">
+        <h1 class="text-center mb-5">Liste de toutes les tâches</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row flex">
+            {% for task in tasks %}
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="card-title">{{ task.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ task.createAt ? task.createAt|date('Y-m-d') : '' }}</h6>
+                        </div>
+                        <p class="card-text my-4">{{ task.description }}</p>
+                        <p><a href="{{ path('task_edit', {'id': task.id} ) }}" class="btn btn-success">Modifier</a></p>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+      <div class="row mt-5">
+        <p class='col-3 offset-8'>
+            <a href="{{ path('task_new') }}" class="btn btn-primary">Ajouter une nouvelle tâche</a>
+        </p>
+      </div>
+    </div>
+{% endblock %}
