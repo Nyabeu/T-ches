@@ -10,6 +10,8 @@
                 {{ message }}
             </div>
         {% endfor %}
+
+        {# Formulaire de filtre #}
         <div class="row justify-content-end mb-2">
 
             {{ form_start(form) }}
@@ -43,14 +45,16 @@
             {{ form_end(form) }}
 
         </div>
-        <div class="grid">
+        <div class="row d-flex">
             {% for task in tasks %}
-                {% include 'task/_card.html.twig' with {task : task } only %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                    {% include 'task/_card.html.twig' with {task : task } only %}
+                </div>
             {% endfor %}
         </div>
         <div class='row my-5'>
             <a href="{{ path('task_new') }}" class="btn btn-primary col-3 offset-8">Ajouter une nouvelle tâche</a>
         </div>
 
-     </div>
+    </div>
 {% endblock %}
