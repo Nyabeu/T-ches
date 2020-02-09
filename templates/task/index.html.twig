@@ -3,33 +3,54 @@
 
 {% block body %}
 
-    <div class="container mt-3">
+     <div class="container mt-3">
         <h1 class="text-center mb-5">Liste de toutes les tâches</h1>
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
         {% endfor %}
-        <div class="row flex">
-            {% for task in tasks %}
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h5 class="card-title">{{ task.title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ task.createAt ? task.createAt|date('Y-m-d') : '' }}</h6>
+        <div class="row justify-content-end mb-2">
+
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group row">
+                            <div class="col-3">
+                                {{ form_label(form.ascDate) }}
+                             </div>
+                            <div class="col-9" id="some-custom-id">
+                                {{ form_widget(form.ascDate) }}
+                             </div>
                         </div>
-                        <p class="card-text my-4">{{ task.description }}</p>
-                        <p><a href="{{ path('task_edit', {'id': task.id} ) }}" class="btn btn-success">Modifier</a></p>
+                    </div>
+                    <div class="col-6">
+                         <div class="form-group row">
+                            <div class="col-9" id="some-custom-id">
+                                {{ form_widget(form.status) }}
+                             </div>
+                            <div class="col-2" style="margin-left:-20px;">
+                                {{ form_label(form.status) }}
+                             </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group row">
+                            <button class="btn btn-info">Appliquer</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-          {% endfor %}
+            {{ form_end(form) }}
+
         </div>
-      <div class="row mt-5">
-        <p class='col-3 offset-8'>
-            <a href="{{ path('task_new') }}" class="btn btn-primary">Ajouter une nouvelle tâche</a>
-        </p>
-      </div>
-    </div>
+        <div class="grid">
+            {% for task in tasks %}
+                {% include 'task/_card.html.twig' with {task : task } only %}
+            {% endfor %}
+        </div>
+        <div class='row my-5'>
+            <a href="{{ path('task_new') }}" class="btn btn-primary col-3 offset-8">Ajouter une nouvelle tâche</a>
+        </div>
+
+     </div>
 {% endblock %}

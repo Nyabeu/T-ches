@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Task;
+use App\Entity\TaskFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,6 +15,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
@@ -23,16 +25,22 @@ class TaskRepository extends ServiceEntityRepository
     //  * @return Task[] Returns an array of Task objects
     //  */
 
-    public function findByCreateAndStatus()
+    public function findByCreateAndStatus(TaskFilter $filter) : array
     {
-        return $this->createQueryBuilder('t')
-            //->andWhere('t.status IN (:val)')
-            //->setParameter('val', $value->getStatus())
-            ->orderBy('t.createAt', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $query = $this->createQueryBuilder('t');
+
+            if($filter->ascDate ){
+                $query = $query
+                        ->orderBy('t.createAt', 'DESC');
+            }
+            if($filter->status){
+                $query = $query
+                        ->andWhere('t.status = :status')
+                        ->setParameter('status', $filter->status );
+            }
+                $query =  $query->getQuery()->getResult();
+
+        return  $query;
     }
 
 

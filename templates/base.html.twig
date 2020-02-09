@@ -10,9 +10,34 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% block stylesheets %} {% endblock %}
+        <style>
+          .grid{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+          }
+          .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
+          }
+        .card .btn-success {
+          border: none;
+          outline: 0;
+          padding: 12px;
+          color: white;
+          text-align: center;
+          cursor: pointer;
+          width: 100%;
+          font-size: 18px;
+        }
+        .form_register{
+          width: 60%;
+          margin: 100px auto;
+          box-shadow: 5px 5px 5px tomato;
+          background: rgb(234, 244, 226);
+        }
+        </style>
 
-        <link rel="stylesheet" href="{{ asset('css/task.css') }}" type="text/css">
-        {% block stylesheets %}{% endblock %}
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-danger" style="padding: 0px 2rem;">

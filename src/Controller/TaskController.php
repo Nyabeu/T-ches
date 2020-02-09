@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\TaskFilter;
 use App\Form\TaskType;
+use App\Form\TaskFilterType;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +16,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
+
     /**
      * @Route("/", name="task_index", methods={"GET"})
      */
     public function index(TaskRepository $taskRepository, Request $request): Response
     {
+        $filter = new TaskFilter();
+        $form = $this->createForm(TaskFilterType::class, $filter);
+        $form->handleRequest($request);
+
+
+        $tasks =  $taskRepository->findByCreateAndStatus($filter);
 
         return $this->render('task/index.html.twig', [
-            'tasks' => $taskRepository->findByCreateAndStatus(),
+            'tasks' => $tasks,
+            'form' => $form->createView(),
+
         ]);
     }
 
@@ -52,7 +63,7 @@ class TaskController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="task_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="task_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Task $task): Response
     {
@@ -60,8 +71,10 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $task->setUpdateAt(new \Datetime('now'));
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', 'Tâche modifié avec succès');
+            $this->addFlash('success', 'Tâche modifié avec succès et date de mise à jour enregistrée');
 
             return $this->redirectToRoute('task_index');
         }
@@ -73,7 +86,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="task_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="task_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Task $task): Response
     {

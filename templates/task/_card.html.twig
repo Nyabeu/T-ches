@@ -1,0 +1,9 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ task.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ task.createAt ? task.createAt|date('d/m/Y') : '' }}</h6>
+{% if task.updateAt is not null %}<p>Date de mise à jour : {{task.updateAt ? task.updateAt|date('d/m/Y') : ''}}</p>{% endif %}
+        <p class="card-text my-4">{{ task.description }}</p>
+        <p><a href="{{ path('task_edit', {'id': task.id} ) }}" class="btn btn-success">Modifier</a></p>
+    </div>
+</div>

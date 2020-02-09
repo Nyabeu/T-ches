@@ -36,11 +36,14 @@ class Task
      */
     private $createAt;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $updateAt;
+
     public function __construct(){
-        $this->createAt = new \Datetime("now");
+        $this->createAt = new \Datetime('now');
     }
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -94,8 +97,15 @@ class Task
         return $this;
     }
 
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
 
+    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
 
-
-
+        return $this;
+    }
 }
