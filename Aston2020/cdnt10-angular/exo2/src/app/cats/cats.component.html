@@ -1,0 +1,16 @@
+<h1>{{ listeCats }}</h1>
+<div id="container">
+    <div *ngFor="let cat of cats" [ngStyle]="myStyles" class="card">
+        <p class="nom">Nom: {{ cat.nom }}</p>
+        <div class="bloc">
+            <p>Modifier le nom: <input type="text" placeholder="{{ cat.nom }}" [(ngModel)]="cat.nom"></p>
+            <p class="couleur">Couleur: {{ cat.couleur }}</p>
+            <p class="age">Age: {{ cat.age }} ans</p>
+            <div>
+                <button class="btn" type="submit" (click)="onclick(cat.nom)">Action</button>
+            </div>
+        </div>
+
+    </div>    
+
+</div>
